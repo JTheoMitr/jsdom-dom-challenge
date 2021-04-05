@@ -9,9 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("comment-form")
     const comment = document.getElementById("comment-input")
     const list = document.getElementById("list")
+    const likedNumbers = {}
 
     let clickCounter = 0
-    counter.innerHTML = "0"
+    counter.innerHTML = 0
 
     function countUp() {
         parseInt(counter.innerHTML);
@@ -21,19 +22,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let intervalCount = setInterval(countUp, 1000)
 
+    function likeNumber() {
+        const currentNumber = counter.innerText
+        console.log("Liking number")
+        if (likedNumbers[currentNumber]) {
+            likedNumbers[currentNumber] += 1
+            document.getElementById(currentNumber).innerText = `${currentNumber} has been liked ${likedNumbers[currentNumber]} times`
+        } else {
+            likedNumbers[currentNumber] = 1
+            likeList.innerHTML += `<li id=${currentNumber}> ${currentNumber} has been liked ${likedNumbers[currentNumber]} times </li>`
+        }
 
-    heart.addEventListener('click', function(event) {
-        const newLi = document.createElement('li')
-        clickCounter++
-        newLi.innerText = ` ${counter.innerHTML} has been liked ${clickCounter} times`
-            if (clickCounter == 1) {
-                likeList.append(newLi)
-            }
-            else if (clickCounter > 1) {
-                likeList.lastElementChild.innerText = ` ${counter.innerHTML} has been liked ${clickCounter} times`
-            }
-        
-    })
+    }
+
+
+    heart.addEventListener('click', likeNumber)
 
     pause.addEventListener('click', function(event) {
         if (pause.innerText == "pause") {
